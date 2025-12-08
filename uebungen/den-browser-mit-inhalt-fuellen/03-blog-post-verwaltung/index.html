@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog-Post-Verwaltung</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="index.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Blog-Post-Verwaltung</h1>
+            <p>Eine einfache Anwendung zur Verwaltung von Blog-Posts mit JSONPlaceholder</p>
+        </header>
+
+        <!-- Formular zum Erstellen eines neuen Posts -->
+        <section class="create-post-section">
+            <h2>Neuen Post erstellen</h2>
+            <form id="create-post-form">
+                <div class="form-group">
+                    <label for="post-title">Titel:</label>
+                    <input type="text" id="post-title" name="title" placeholder="Gib einen Titel ein...">
+                </div>
+                <div class="form-group">
+                    <label for="post-body">Inhalt:</label>
+                    <textarea id="post-body" name="body" rows="4" placeholder="Schreib etwas..."></textarea>
+                </div>
+                <button type="submit">Post erstellen</button>
+            </form>
+        </section>
+
+        <!-- Liste der Posts -->
+        <section class="posts-section">
+            <h2>Blog-Posts</h2>
+            <div id="posts-container" class="posts-container">
+                <!-- Posts werden hier dynamisch eingefügt -->
+            </div>
+        </section>
+    </div>
+</body>
+</html>

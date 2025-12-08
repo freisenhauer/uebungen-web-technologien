@@ -1,0 +1,18 @@
+{
+  "name": "03-blog-post-verwaltung",
+  "version": "1.0.0",
+  "description": "Blog-Post-Verwaltung mit JSONPlaceholder API",
+  "scripts": {
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "check": "biome check --write ."
+  },
+  "keywords": [
+    "javascript",
+    "fetch",
+    "dom",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT"
+}

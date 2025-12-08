@@ -1,0 +1,21 @@
+{
+  "name": "typescript-todo-cli",
+  "version": "1.0.0",
+  "description": "Eine einfache CLI Todo-Liste zum Erlernen von TypeScript",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "check": "biome check --write ."
+  },
+  "keywords": [
+    "todo",
+    "cli",
+    "typescript",
+    "learning"
+  ],
+  "author": "",
+  "license": "MIT"
+}
