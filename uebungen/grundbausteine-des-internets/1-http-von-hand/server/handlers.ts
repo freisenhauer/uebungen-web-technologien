@@ -52,8 +52,6 @@ export function handleData(req: Request, res: Response): void {
 }
 
 export function handleGreet(req: Request, res: Response): void {
-    console.log("POST Body received:", req.body);
-
     const contentType = req.get("Content-Type");
 
     if (!contentType || !contentType.includes("application/json")) {
@@ -85,14 +83,6 @@ export function handleGreet(req: Request, res: Response): void {
     });
 }
 
-export function handleNotFound(_req: Request, res: Response): void {
-    res.status(404).json({
-        error: "Not Found",
-        message: "Die angeforderte Ressource existiert nicht",
-        code: 404,
-    });
-}
-
 export function handleRedirect(_req: Request, res: Response): void {
     res.redirect(301, "/");
 }
@@ -104,6 +94,16 @@ export function handleTeapot(_req: Request, res: Response): void {
             "Dieser Server ist eine Teekanne und kann keinen Kaffee kochen.",
         code: 418,
         rfc: "RFC 2324 - Hyper Text Coffee Pot Control Protocol",
+    });
+}
+
+export function handleCrash(_req: Request, res: Response): void {
+    res.status(500).json({
+        error: "Internal Server Error",
+        message:
+            "Ein interner Server-Fehler ist aufgetreten. Dies simuliert einen schwerwiegenden Fehler.",
+        code: 500,
+        hint: "Dies ist ein simulierter Fehler zu Demonstrationszwecken",
     });
 }
 

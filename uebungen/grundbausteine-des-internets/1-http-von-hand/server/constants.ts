@@ -5,7 +5,7 @@ export const AVAILABLE_ROUTES = [
     "GET /api/echo",
     "GET /api/data",
     "POST /api/greet",
-    "GET /notfound",
     "GET /redirect",
     "GET /teapot",
+    "GET /crash",
 ];

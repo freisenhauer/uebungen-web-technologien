@@ -2,11 +2,11 @@ import express from "express";
 import { AVAILABLE_ROUTES, PORT } from "./constants.js";
 import {
     handle404,
+    handleCrash,
     handleData,
     handleEcho,
     handleGreet,
     handleHomePage,
-    handleNotFound,
     handleRedirect,
     handleTeapot,
 } from "./handlers.js";
@@ -17,18 +17,18 @@ import { requestLoggingMiddleware } from "./middleware.js";
 const app = express();
 
 // Middleware
-app.use(requestLoggingMiddleware);
 app.use(express.json());
 app.use(express.text());
+app.use(requestLoggingMiddleware);
 
 // Routes
 app.get("/", handleHomePage);
 app.get("/api/echo", handleEcho);
 app.get("/api/data", handleData);
 app.post("/api/greet", handleGreet);
-app.get("/notfound", handleNotFound);
 app.get("/redirect", handleRedirect);
 app.get("/teapot", handleTeapot);
+app.get("/crash", handleCrash);
 
 // 404 Handler für alle anderen Routen
 app.use(handle404);

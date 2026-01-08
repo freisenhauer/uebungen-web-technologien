@@ -2,15 +2,17 @@
 
 ## Beschreibung
 
-In dieser Übung wirst du HTTP-Requests mit curl senden und die rohen Requests und Responses analysieren. Du wirst verstehen, dass hinter allen modernen Web-Frameworks und Bibliotheken ein simples textbasiertes Protokoll steckt.
+Diese Übung soll vor dem Durchkauen der Theorie zu HTTP einen praktischen Einblick in das Protokoll geben.
+In dieser Übung wirst du HTTP-Requests mit curl senden und die rohen Requests und Responses analysieren.
+Du wirst verstehen, dass hinter allen modernen Web-Frameworks und Bibliotheken ein simples textbasiertes Protokoll steckt.
 
 ## Lernziele
 
 Nach dieser Übung kannst du:
 - Die Struktur von HTTP-Requests und Responses erklären
-- HTTP-Requests mit curl erstellen und senden
+- HTTP-Requests mit curl senden
 - Die Bedeutung wichtiger HTTP-Headers verstehen
-- Verschiedene HTTP-Methoden (GET, POST, HEAD) anwenden
+- Verschiedene HTTP-Methoden (GET, POST) anwenden
 - HTTP-Status Codes interpretieren
 - Content-Negotiation verstehen
 
@@ -20,34 +22,6 @@ Nach dieser Übung kannst du:
 
 - **Node.js** (v18 oder höher)
 - **curl** (auf den meisten Systemen vorinstalliert)
-
-#### Installation von curl
-
-**macOS:**
-```bash
-# curl ist bereits vorinstalliert
-curl --version
-```
-
-**Linux:**
-```bash
-# Debian/Ubuntu
-sudo apt-get install curl
-
-# Fedora/RHEL
-sudo dnf install curl
-
-# Arch
-sudo pacman -S curl
-```
-
-**Windows:**
-```bash
-# Auf Windows 10/11 ist curl vorinstalliert
-curl --version
-
-# Falls nicht: Download von https://curl.se/windows/
-```
 
 ## Setup
 
@@ -105,271 +79,153 @@ curl -v http://localhost:3000/
 
 ## Aufgaben
 
-### Aufgabe 1: Der erste HTTP-Request
+### Aufgabe 1: Den ersten HTTP-Request verstehen
 
-Sende einen GET-Request an `http://localhost:3000/` mit curl.
+**Dein Ziel:** Sende einen GET-Request an `http://localhost:3000/` und verschaffe dir einen Überblick über die Struktur von HTTP-Requests und Responses.
 
-```bash
-curl -v http://localhost:3000/
-```
+**Wie du vorgehst:**
+- Nutze curl mit dem `-v` Flag, um den kompletten HTTP-Verkehr zu sehen
+- Die URL ist `http://localhost:3000/`
 
 **Worauf du achten solltest:**
-- Der Request beginnt mit einer **Request-Line**: `GET / HTTP/1.1`
-- Danach folgen **Request-Header** (Host, User-Agent, Accept)
+
+Der **Request** (Zeilen mit `>`):
+- Die erste Zeile ist die **Request-Line**: `GET / HTTP/1.1`
+- Danach folgen **Request-Header** (Host, User-Agent, Accept, etc.)
+- Eine **Leerzeile** trennt Header vom Body (bei GET meist leer)
+
+Die **Response** (Zeilen mit `<`):
+- Die erste Zeile ist die **Status-Line**: `HTTP/1.1 200 OK`
+- Danach folgen **Response-Header** (Content-Type, Content-Length, Date, etc.)
 - Eine **Leerzeile** trennt Header vom Body
-- Die Response beginnt mit einer **Status-Line**: `HTTP/1.1 200 OK`
-- Danach folgen **Response-Header** (Content-Type, Content-Length, etc.)
-- Eine **Leerzeile** trennt Header vom Response-Body
 - Der **Body** enthält die eigentliche HTML-Seite
 
-**Experimentiere:**
+**Fragen zum Nachdenken:**
 - Welche Header sendet curl automatisch?
 - Welche Header sendet der Server zurück?
-- Was steht in der Status-Line?
+- Was bedeuten die drei Teile der Status-Line?
 
 ---
 
-### Aufgabe 2: Request-Header manipulieren
+### Aufgabe 2: Request-Header selbst setzen
 
-Füge eigene Header zum Request hinzu.
+**Dein Ziel:** Sende einen Request mit eigenen Headern an `/api/echo` und sieh dir an, was beim Server ankommt.
 
-```bash
-curl -v http://localhost:3000/api/echo \
-  -H "User-Agent: MeinBrowser/1.0" \
-  -H "Accept: application/json" \
-  -H "X-Custom-Header: Hallo"
-```
+Der `/api/echo` Endpunkt ist praktisch: Er schickt dir alle empfangenen Request-Informationen als JSON zurück.
 
-Der `/api/echo` Endpunkt zeigt dir alle empfangenen Header im Response-Body.
+**Was du tun sollst:**
+- Setze einen eigenen `User-Agent` Header (z.B. "MeinBrowser/1.0")
+- Setze einen `Accept` Header auf "application/json"
+- Füge einen Custom-Header hinzu (z.B. `X-Custom-Header: Hallo`)
 
-**Worauf du achten solltest:**
-- Welche Header kommen beim Server an?
-- Welche Header fügt curl automatisch hinzu (Host, etc.)?
-- Der `User-Agent` Header identifiziert den Client
+**Tipps:**
+- Mit `-H "Header: Wert"` fügst du Header hinzu
+- Du kannst `-H` mehrfach verwenden für mehrere Header
+- Der `User-Agent` identifiziert den Client
 - Der `Accept` Header sagt dem Server, welches Format du bevorzugst
 
 **Experimentiere:**
-- Was passiert, wenn du den `Host`-Header überschreibst?
-- Füge mehrere Custom-Header hinzu
+- Was passiert, wenn du keinen `Accept` Header setzt?
+- Füge 3-4 verschiedene Custom-Header hinzu - kommen alle beim Server an?
+- Versuche mal, den `Host`-Header zu überschreiben. Was passiert? Was bedeutet das für diesen und andere (Standard-) Header?
 
 ---
 
-### Aufgabe 3: Content-Negotiation verstehen
+### Aufgabe 3: Content-Negotiation erleben
 
-Fordere `/api/data` mit unterschiedlichen `Accept`-Headern an.
+**Dein Ziel:** Fordere dieselbe Ressource `/api/data` in verschiedenen Formaten an und verstehe, wie Content-Negotiation funktioniert.
 
-**JSON-Response:**
-```bash
-curl -v http://localhost:3000/api/data \
-  -H "Accept: application/json"
-```
+Der Server kann dir die Daten in drei Formaten liefern:
+- JSON (`application/json`)
+- HTML (`text/html`)
+- Plain Text (`text/plain`)
 
-**HTML-Response:**
-```bash
-curl -v http://localhost:3000/api/data \
-  -H "Accept: text/html"
-```
+**Was du tun sollst:**
+- Fordere `/api/data` dreimal an, jedes Mal mit einem anderen `Accept` Header
+- Beobachte den `Content-Type` Header in der Response
+- Vergleiche die Response-Bodies
 
-**Plain-Text-Response:**
-```bash
-curl -v http://localhost:3000/api/data \
-  -H "Accept: text/plain"
-```
-
-**Worauf du achten solltest:**
-- Der Server gibt verschiedene Formate zurück, je nach `Accept`-Header
-- Schau dir den `Content-Type` Response-Header an
-- Der Server entscheidet anhand des `Accept`-Headers, welches Format gesendet wird
+**Tipps:**
+- Mit `-H "Accept: ..."` steuerst du, welches Format du bevorzugst
+- Der Server schaut sich deinen `Accept` Header an und entscheidet, was er zurückschickt
 - Das nennt man **Content-Negotiation**
 
 **Experimentiere:**
-- Was passiert mit `Accept: */*`?
-- Was passiert mit `Accept: application/xml` (nicht unterstützt)?
-- Was passiert, wenn du den `Accept`-Header weglässt?
+- Was passiert mit `Accept: */*`? Welches Format bekommst du?
+- Was passiert mit `Accept: application/xml`?
+- Was passiert, wenn du gar keinen `Accept` Header sendest?
+- Kannst du mehrere Formate angeben (z.B. `Accept: text/html, application/json`)? Wie verhält sich dieser Server?
 
 ---
 
-### Aufgabe 4: POST-Requests mit Body
+### Aufgabe 4: POST-Request mit JSON-Daten
 
-Sende Daten per POST an `/api/greet`.
+**Dein Ziel:** Sende JSON-Daten per POST an `/api/greet` und lass dir eine personalisierte Antwort geben.
 
-**JSON-Daten senden:**
-```bash
-curl -v http://localhost:3000/api/greet \
-  -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Max","age":25}'
-```
+Der Server erwartet:
+- HTTP-Methode: POST
+- Content-Type: `application/json`
+- Body: JSON-Objekt mit `name` (Pflichtfeld) und optional `age`
 
-**Worauf du achten solltest:**
-- Der `Content-Type` Header sagt dem Server, wie die Daten formatiert sind
-- Der Request-Body enthält die JSON-Daten
+**Was du tun sollst:**
+- Sende einen POST-Request mit JSON-Daten
+- Probiere verschiedene Kombinationen aus (nur Name, Name + Alter)
+
+**Tipps:**
+- Du musst curl mitteilen, welche Methode du verwenden willst (POST)
+- Du musst den `Content-Type` Header setzen
+- Du musst die JSON-Daten im Body senden
+- Bei Bedarf: Recherchiere, wie dies mit curl funktioniert, curl ist sehr gut dokumentiert
 - curl berechnet automatisch den `Content-Length` Header
-- Der Server parst die Daten und gibt eine personalisierte Antwort
 
-**Experimentiere:**
-```bash
-# Ohne Content-Type → Server-Fehler
-curl -v http://localhost:3000/api/greet \
-  -X POST \
-  -d '{"name":"Anna","age":30}'
+**Experimentiere systematisch:**
+1. Sende einen vollständigen Request mit Name und Alter
+2. Was passiert, wenn du den `Content-Type` Header weglässt?
+4. Was passiert, wenn du nur den Namen sendest (ohne Alter)?
+5. Was passiert, wenn du gar kein `name` Feld sendest?
+3. Was passiert, wenn du einen leeren Body sendest (`-d ''`)?
 
-# Ohne Body → Server-Fehler
-curl -v http://localhost:3000/api/greet \
-  -X POST \
-  -H "Content-Type: application/json"
-
-# Nur Name, kein Alter
-curl -v http://localhost:3000/api/greet \
-  -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Lisa"}'
-```
-
-**Was passiert bei:**
-- Fehlender `Content-Type`?
-- Leerem Body?
-- Fehlenden Pflichtfeldern?
+**Fragen zum Nachdenken:**
+- Welche Status Codes bekommst du bei den verschiedenen Fehlerfällen?
+- Warum ist der `Content-Type` Header so wichtig?
+- Warum sendet der Server nicht nur den entsprechenden Status Code, sondern auch eine erklärende Nachricht im Body?
 
 ---
 
-### Aufgabe 5: HTTP-Status Codes verstehen
+### Aufgabe 5: HTTP-Status Codes kennenlernen
 
-Teste verschiedene Endpunkte und beobachte die Status Codes.
+**Dein Ziel:** Löse verschiedene Status Codes beim Server aus und verstehe, was sie bedeuten.
 
-**200 OK (Erfolg):**
-```bash
-curl -v http://localhost:3000/
-```
+**Was du tun sollst:** Finde heraus, wie du folgende Status Codes provozieren kannst:
+- **200 OK** - Alles gut
+- **301 Moved Permanently** - Die Ressource ist umgezogen
+- **404 Not Found** - Die Ressource existiert nicht
+- **418 I'm a teapot** - Ein Easter Egg (ja, das gibt's wirklich, siehe RFC 2324)
+- **500 Internal Server Error** - Ein Server-Fehler
 
-**404 Not Found (Ressource existiert nicht):**
-```bash
-curl -v http://localhost:3000/notfound
-```
+**Tipps:**
+- Öffne im Browser `http://localhost:3000/` oder schaue in die Logs des Servers, um verfügbare Endpunkte zu sehen
 
-**301 Moved Permanently (Redirect):**
-```bash
-curl -v -L http://localhost:3000/redirect
-```
+**Für den Redirect-Endpunkt:**
+- Probiere den Request einmal normal aus - was passiert?
+- Mit `-L` folgt curl dem Redirect automatisch - was ändert sich?
+- Schau dir den `Location` Header an - wohin wird umgeleitet?
 
-**Ohne Redirect folgen:**
-```bash
-curl -v http://localhost:3000/redirect
-```
-
-**418 I'm a teapot (Easter Egg):**
-```bash
-curl -v http://localhost:3000/teapot
-```
-
-**Worauf du achten solltest:**
-- **2xx** = Erfolg (200 OK, 201 Created, etc.)
-- **3xx** = Redirect (301 Permanent, 302 Temporary, etc.)
-  - Der `Location`-Header gibt das Redirect-Ziel an
-  - curl folgt Redirects standardmäßig (mit `-L` erzwingen)
-- **4xx** = Client-Fehler (400 Bad Request, 404 Not Found, etc.)
-- **5xx** = Server-Fehler (500 Internal Server Error, etc.)
-- **418** ist ein Scherz aus RFC 2324 (Hyper Text Coffee Pot Control Protocol)
-
-**Experimentiere:**
-- Wie verhält sich curl bei Redirects?
-- Was steht im `Location`-Header?
-- Rufe eine nicht-existierende Route auf
+**Fragen zum Nachdenken:**
+- Was bedeuten die Status Code-Bereiche (2xx, 3xx, 4xx, 5xx)? (Wir schauen uns die Codes noch genauer an)
+- Wann ist ein Fehler ein 4xx vs. ein 5xx?
+- Was ist der Unterschied zwischen einem 404 und einem 500?
 
 ---
-
-### Aufgabe 6: HEAD-Methode
-
-Die HEAD-Methode funktioniert wie GET, liefert aber nur die Header ohne Body.
-
-```bash
-curl -v -X HEAD http://localhost:3000/
-```
-
-Alternativ (HEAD ist Standard-Methode mit `-I`):
-```bash
-curl -I http://localhost:3000/
-```
-
-**Worauf du achten solltest:**
-- Die Response enthält alle Header wie bei GET
-- Aber **kein Body**!
-- Der `Content-Length` Header zeigt trotzdem die Größe, die ein GET hätte
-- Nützlich, um Metadaten zu prüfen ohne die ganze Ressource herunterzuladen
-
-**Experimentiere:**
-- Vergleiche HEAD und GET für dieselbe URL
-- Was unterscheidet sich?
-- Wann würdest du HEAD statt GET verwenden?
-
----
-
-### Aufgabe 7: Request-Body in Datei speichern
-
-Manchmal willst du den Response analysieren, ohne dass er im Terminal angezeigt wird.
-
-**Nur Header anzeigen:**
-```bash
-curl -v http://localhost:3000/ > /dev/null
-```
-
-**Body in Datei speichern:**
-```bash
-curl -v http://localhost:3000/ -o response.html
-```
-
-**Header in Datei, Body auf stdout:**
-```bash
-curl -D headers.txt http://localhost:3000/
-```
-
-**Worauf du achten solltest:**
-- `-o filename`: Speichert den Body in eine Datei
-- `-D filename`: Speichert die Header in eine Datei
-- `> /dev/null`: Unterdrückt die Body-Ausgabe im Terminal
-
----
-
-### Aufgabe 8: Mehrere Requests vergleichen
-
-Sende denselben Request mehrmals und beobachte Unterschiede.
-
-```bash
-# Request 1
-curl -v http://localhost:3000/api/echo
-
-# Request 2 - ein paar Sekunden später
-curl -v http://localhost:3000/api/echo
-```
-
-**Worauf du achten solltest:**
-- Ändert sich der `Date` Response-Header?
-- Ändert sich der Timestamp im Response-Body?
-- Welche Header bleiben gleich?
-
-**Experimentiere:**
-- Sende Requests mit verschiedenen `User-Agent` Headern
-- Vergleiche die Responses
-
 ---
 
 ## Weiterführende Ressourcen
 
-- [RFC 7230 - HTTP/1.1 Message Syntax and Routing](https://tools.ietf.org/html/rfc7230)
-- [RFC 7231 - HTTP/1.1 Semantics and Content](https://tools.ietf.org/html/rfc7231)
 - [MDN Web Docs - HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP)
 - [curl Documentation](https://curl.se/docs/)
 - [HTTP Status Dogs](https://httpstatusdogs.com/) (Humorvolle Darstellung von Status Codes)
 
 ## Debugging-Tipps
-
-**curl-Optionen:**
-- `-v`: Verbose (zeigt alles)
-- `-s`: Silent (keine Progress-Bar)
-- `-S`: Show errors (mit `-s` kombinierbar)
-- `-i`: Include headers in output
-- `-I`: HEAD-Request
-- `--http1.1`: Erzwingt HTTP/1.1
 
 **Häufige Fehler:**
 - Vergessener `Content-Type` bei POST → Server kann Daten nicht parsen
@@ -383,6 +239,4 @@ Der Server loggt alle eingehenden Requests. Schau dir das Terminal mit `npm star
 
 1. **Immer -v verwenden beim Debuggen** - Du siehst, was wirklich gesendet wird
 2. **Header sind case-insensitive** - `Content-Type` = `content-type`
-3. **Die Leerzeile ist wichtig** - Sie trennt Header vom Body
-4. **curl folgt Redirects nicht automatisch** - Nutze `-L` dafür
-5. **Probiere verschiedene Accept-Header** - Lerne Content-Negotiation verstehen
+3. **curl folgt Redirects nicht automatisch** - Nutze `-L` dafür
