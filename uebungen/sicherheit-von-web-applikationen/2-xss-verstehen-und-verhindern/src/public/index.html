@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein Blog</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Mein Blog</h1>
+        <p>Teile deine Gedanken mit der Welt!</p>
+    </header>
+
+    <main>
+        <section class="comment-form">
+            <h2>Neuer Kommentar</h2>
+            <form id="commentForm">
+                <div class="form-group">
+                    <label for="author">Dein Name:</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="text">Kommentar:</label>
+                    <textarea id="text" name="text" rows="4" required></textarea>
+                </div>
+                <button type="submit">Kommentar absenden</button>
+            </form>
+        </section>
+
+        <section class="comments-section">
+            <div class="comments-header">
+                <h2>Kommentare</h2>
+                <button id="clearCommentsBtn" class="danger">Alle Kommentare löschen</button>
+            </div>
+            <div id="commentsList"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>⚠️ Diese Seite ist anfällig für XSS-Angriffe! Zu Demonstrationszwecken.</p>
+    </footer>
+
+    <script src="blog.js"></script>
+</body>
+</html>
