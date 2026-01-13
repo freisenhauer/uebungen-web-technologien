@@ -34,22 +34,6 @@ Alle Daten werden im Arbeitsspeicher gehalten (in-memory), d.h. nach einem Neust
 ### Node.js
 Die API läuft auf Node.js. Du benötigst mindestens Version 18.x.
 
-**Installation:**
-
-- **macOS**:
-  ```bash
-  brew install node
-  ```
-
-- **Linux (Ubuntu/Debian)**:
-  ```bash
-  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-  ```
-
-- **Windows**:
-  Lade den Installer von [nodejs.org](https://nodejs.org/) herunter und führe ihn aus.
-
 Überprüfe die Installation mit:
 ```bash
 node --version
@@ -60,20 +44,20 @@ npm --version
 
 Du benötigst ein Tool, um HTTP-Anfragen an die API zu senden. Wähle eines der folgenden:
 
-#### Option 1: Postman (empfohlen für Einsteiger)
+#### Option 1: curl (für Kommandozeilen-Fans)
+- **macOS/Linux**: Bereits vorinstalliert
+- **Windows**: Ab Windows 10 vorinstalliert, oder über [curl.se](https://curl.se/windows/)
+- Kommandozeilen-Tool, erfordert etwas mehr Einarbeitung
+- 
+#### Option 2: Postman
 - **Alle Betriebssysteme**: Download von [postman.com](https://www.postman.com/downloads/)
 - Grafische Oberfläche, sehr intuitiv
 - Zeigt Request und Response übersichtlich an
 
-#### Option 2: Insomnia
+#### Option 3: Insomnia
 - **Alle Betriebssysteme**: Download von [insomnia.rest](https://insomnia.rest/download)
 - Open Source Alternative zu Postman
 - Ebenfalls grafische Oberfläche, etwas minimalistischer
-
-#### Option 3: curl (für Kommandozeilen-Fans)
-- **macOS/Linux**: Bereits vorinstalliert
-- **Windows**: Ab Windows 10 vorinstalliert, oder über [curl.se](https://curl.se/windows/)
-- Kommandozeilen-Tool, erfordert etwas mehr Einarbeitung
 
 ## Durchführung
 
@@ -124,7 +108,7 @@ Die API wird dir in der Response die erste Aufgabe stellen. Folge einfach den An
 **Wichtige Hinweise:**
 - Lies die Responses aufmerksam - sie enthalten die nächsten Schritte
 - Achte auf HTTP-Statuscodes - sie geben wichtige Informationen über das Ergebnis deiner Anfrage
-- Experimentiere! Die API läuft in-memory, du kannst nichts kaputt machen
+- Experimentiere! Die API läuft in-memory, du kannst nichts kaputt machen (das heißt aber auch, dass du von vorne anfängst, wenn du neu startest)
 - Bei Unsicherheiten: Starte die API einfach neu mit `npm start`
 - **Hinweis:** Diese API weicht an manchen Stellen bewusst von REST-Standards ab (z.B. 200 OK statt 204 No Content bei DELETE), um dich besser durch die Übung zu führen. Die API erklärt in den Responses, wo sie abweicht und warum.
 
