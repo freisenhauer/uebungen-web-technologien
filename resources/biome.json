@@ -71,13 +71,5 @@
       "indentWidth": 2
     }
   },
-  "html": {
-    "formatter": {
-      "enabled": true,
-      "indentStyle": "space",
-      "indentWidth": 4,
-      "lineWidth": 80
-    }
-  },
   "overrides": []
 }
