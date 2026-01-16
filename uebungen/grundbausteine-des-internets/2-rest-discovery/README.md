@@ -122,6 +122,12 @@ curl http://localhost:3000/
 GET http://localhost:3000/
 ```
 
+:::info Anfragen
+Der Code Block hierüber beschreibt keinen konkreten Terminal Befehl, den du ausführen kannst, 
+sondern beschreibt informell, dass du einen GET request an diese URL ausführen sollst.
+Nutze dafür entweder curl, postman, insomnia oder den HTTP Client, der dir am besten gefällt.
+:::
+
 Die API wird dir in der Response die erste Aufgabe stellen. Folge einfach den Anweisungen, die die API dir gibt!
 
 **Wichtige Hinweise:**
