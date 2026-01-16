@@ -99,6 +99,9 @@ Starte mit: GET http://localhost:3000/
 
 Die API läuft nun und ist bereit für deine Anfragen!
 
+Falls du den Port bereits belegt hast, kannst du unter ./src/server.js oben in der Datei den Port anpassen.
+Natürlich darfst du mich aber auch um Hilfe dabei bitten. 
+
 ### 2. Dein HTTP-Client Tool vorbereiten
 
 **Postman/Insomnia:**
