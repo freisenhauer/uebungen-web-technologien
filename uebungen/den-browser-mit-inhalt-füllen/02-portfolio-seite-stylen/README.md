@@ -24,11 +24,6 @@ Für diese Übung benötigst du:
 - Einen Texteditor (z.B. VS Code, Sublime Text)
 - Einen modernen Webbrowser mit Developer Tools (z.B. Chrome, Firefox, Safari, Edge)
 
-**Installation:**
-- **macOS:** Browser ist bereits vorinstalliert, Texteditor nach Wahl
-- **Linux:** Browser in der Regel vorinstalliert, Texteditor über Paketmanager
-- **Windows:** Browser in der Regel vorinstalliert, Texteditor nach Wahl
-
 ## Aufgabenstellung
 
 Deine Aufgabe ist es, die Portfolio-Seite `index.html` durch eine externe CSS-Datei `styles.css` zu stylen.
