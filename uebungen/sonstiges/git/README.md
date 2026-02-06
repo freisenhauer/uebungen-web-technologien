@@ -555,3 +555,130 @@ git push
 | `git merge name`       | Branch zusammenführen       |
 
 ---
+
+# **Git FAQ – Praxisrelevante Themen und Lösungen**
+
+Dieses FAQ erklärt praxisrelevante Themen, die in echten Projekten häufig auftreten, und zeigt **Lösungen und Vorgehensweisen**.  
+Ziel: Du lernst problemorientiert, wie Git in der Praxis genutzt wird.
+
+---
+
+## **1. Was passiert beim `git pull`?**
+
+`git pull` ist eine Kombination aus:
+
+1. `git fetch` → Git lädt neue Commits vom Remote-Repository herunter, ohne sie in deinen lokalen Branch zu integrieren.  
+2. `git merge` → Git versucht, diese Änderungen in deinen aktuellen Branch zu mergen.
+
+**Wichtig:**
+
+- Wenn keine Konflikte existieren, merge Git automatisch.  
+- Wenn Änderungen dieselben Zeilen betreffen, entsteht ein **Merge Conflict**, den du manuell lösen musst.  
+- Alternative: `git pull --rebase` wendet deine lokalen Commits nach dem Remote-Stand an, was die Historie linear hält.
+
+**Praxis-Tipp:** Nutze Pull regelmäßig, um Konflikte früh zu erkennen.
+
+---
+
+## **2. Wie kann ich Commits rückgängig machen?**
+
+- **`git revert <commit>`**: erstellt einen neuen Commit, der die Änderungen eines früheren Commits rückgängig macht.  
+  → Sicher für bereits gepushte Commits.
+  
+- **`git reset`**: setzt den Branch auf einen früheren Commit zurück.  
+  - `--soft`: behält Änderungen im Staging.  
+  - `--mixed`: behält Änderungen im Working Directory.  
+  - `--hard`: löscht alles unwiderruflich.  
+  → Vorsicht: `reset` von gepushten Commits kann Probleme für andere Entwickler verursachen.
+
+**Merksatz:**  
+> `revert` = sicher für gemeinsame Repos, `reset` = lokal und vorsichtig nutzen.
+
+---
+
+## **3. Sauber mit mehreren Entwicklern arbeiten**
+
+- **Feature-Branches**: Jeder arbeitet in einem eigenen Branch, z. B. `feature-login`.  
+- **Pull Requests (PR)**: Änderungen werden erst via PR in `main` gemerged, nach Review.  
+- **Code Review**: Kollegen prüfen Änderungen, bevor sie gemerged werden.  
+- **Branching-Strategien**: z. B. GitFlow: `main`, `develop`, `feature`, `release`, `hotfix`.
+
+**Praxis-Tipp:**  
+Regelmäßiges Pushen, Pullen und Reviews verhindern große Konflikte.
+
+---
+
+## **4. Selektives Committen von Änderungen**
+
+- Git erlaubt, nur bestimmte Teile einer Datei zu committen: `git add -p`.  
+- Vorteil: du kannst mehrere Änderungen in einer Datei sauber in getrennten Commits speichern.  
+- Nach dem Commit zeigt `git log -p`, welche Änderungen übernommen wurden.
+
+**Praxis-Tipp:**  
+Immer kleine, thematisch zusammenhängende Commits machen – erleichtert Review und Debugging.
+
+---
+
+## **5. Projekt-Historie analysieren**
+
+- **`git log`** zeigt alle Commits.  
+- Mit Optionen wie `--oneline`, `--graph`, `--all` sieht man Branch-Struktur und Verlauf.  
+- Filter nach Autor, Datei oder Datum möglich: `git log --author="Name"` oder `git log -- <datei>`.  
+- GUI-Tools (`gitk`, VSCode Git) oder GitHub Insights helfen, die Historie visuell zu erfassen.
+
+**Praxis-Tipp:**  
+Vor einem Merge die Historie prüfen, um Überraschungen zu vermeiden.
+
+---
+
+## **6. Gelöschte Branches oder Commits wiederherstellen**
+
+- **`git reflog`** zeigt alle Bewegungen im Repository (Checkout, Commit, Reset).  
+- Gelöschte Branches lassen sich oft wiederherstellen:  
+  ```bash
+  git checkout -b <branchname> <commit-hash>
+  ```
+
+* **`git cherry-pick <commit>`** kann einzelne Commits auf einen anderen Branch anwenden.
+
+**Praxis-Tipp:**
+Reflog ist dein Retter bei versehentlichem Löschen oder Reset.
+
+---
+
+## **7. Unterschiede zwischen Branches erkennen**
+
+* `git diff branch1 branch2` zeigt alle Änderungen zwischen zwei Branches.
+* `git diff --name-status branch1 branch2` zeigt nur Dateinamen und Status.
+* Auf GitHub Pull Requests können diese Unterschiede automatisch visualisieren.
+
+**Praxis-Tipp:**
+Vor einem Merge immer prüfen, welche Änderungen tatsächlich übernommen werden.
+
+---
+
+## **9. Git mit IDEs und GUI-Tools nutzen**
+
+* IDEs wie VSCode oder IntelliJ bieten Git-Integration: Commit, Branch, Merge, Pull, Push.
+* GUI-Tools wie GitHub Desktop oder Sourcetree erleichtern Visualisierung und Konfliktlösung.
+* CLI bleibt mächtig, besonders für fortgeschrittene Operationen (`rebase`, `stash`, `cherry-pick`).
+
+**Praxis-Tipp:**
+CLI für komplexe Aufgaben, GUI/IDE für Überblick und schnelle Aufgaben.
+
+**Absoluter Geheimtrick**:
+
+Ich persönlich verwende [lazygit](https://github.com/jesseduffield/lazygit). Dabei handelt es sich um eine **SEHR** mächtige und effiziente Terminal UI.
+Ich kann `lazygit` jedem empfehlen, der sich mit dem Terminal und vim wohl fühlt.
+Für alle anderen sind die GUI Integrationen in IDEs aber auch sehr hilfreich.
+
+---
+
+## **10. Weitere Praxislösungen**
+
+* **Große oder sensible Dateien vermeiden**: `.gitignore` nutzen.
+* **Generierter Code wird nicht eingecheckt!** (Build Output, etc.): `.gitignore` nutzen.
+* **Experimentelle Änderungen sichern**: `git stash` speichert temporär, ohne zu committen.
+* **Forking & Upstream-Remotes**: Open-Source-Projekte oft mit Fork → Clone → Pull Request Workflow.
+* **Merge-Tools**: Konflikte lassen sich grafisch lösen (`meld`, VSCode Merge Editor).
+* **Releases planen**: Branches sauber halten, Feature-Branches regelmäßig mergen.
