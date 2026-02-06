@@ -544,10 +544,10 @@ git push
 # **Spickzettel – Die wichtigsten Git-Befehle**
 
 | Befehl                 | Bedeutung                   |
-| ---------------------- | --------------------------- |
+|------------------------|-----------------------------|
 | `git init`             | Neues Repository erstellen  |
 | `git status`           | Zeigt geänderte Dateien     |
-| `git add <datei>`      | Änderungen stagen           |
+| `git add <datei\>`     | Änderungen stagen           |
 | `git commit -m "..."`  | Änderungen speichern        |
 | `git push`             | Änderungen zu GitHub senden |
 | `git branch`           | Branches anzeigen           |
