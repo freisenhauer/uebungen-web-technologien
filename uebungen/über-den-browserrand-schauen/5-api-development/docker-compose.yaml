@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: foo
+      POSTGRES_USER: foo
+      POSTGRES_DB: foo
+    ports:
+      - 5432:5432
+  backend:
+    build: .
+    ports:
+      - 3000:3000
